@@ -18,6 +18,13 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::try_parse().expect("parse failed");
-    println!("foo: {}", args.foo);
+    match Args::try_parse() {
+        Ok(args) => println!("foo: {}", args.foo),
+        Err(err) => {
+            // Make sure to use its `print` method here, not println, or you'll lose the colors.
+            err.print().expect("Failed to write Clap error");
+            // Clap normally exits 2 but let's override that.
+            std::process::exit(64); // sysexit EX_USAGE
+        }
+    }
 }
