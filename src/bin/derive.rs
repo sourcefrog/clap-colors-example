@@ -10,13 +10,14 @@ fn my_styles() -> Styles {
         .placeholder(styling::AnsiColor::Cyan.on_default())
 }
 
-#[derive(clap::Parser)]
-#[clap(styles(my_styles()))]
-struct Opt {
-    #[clap(short, long)]
+#[derive(Parser)]
+#[command(styles(my_styles()))]
+struct Args {
+    #[arg(short, long)]
     foo: String,
 }
 
 fn main() {
-    Opt::parse();
+    let args = Args::parse();
+    println!("foo: {}", args.foo);
 }
